@@ -25,8 +25,8 @@ public class CandidateResponse {
     private Verdict verdict;
     private String summary;
     private CandidateStatus status;
-    private List<Criteria> criteria;
-    private List<Experience> experience;
+    private List<CriteriaItem> criteria;
+    private List<ExperienceItem> experience;
     private List<String> questions;
     private Instant createdAt;
     private Instant updatedAt;

@@ -12,17 +12,21 @@ import java.util.List;
 @Data
 public class CandidateWriteRequest {
     @NotBlank
+    @NotNull
     @Size(min = 2, max = 100)
     private String name;
 
     @NotBlank
     @Email
+    @NotNull
     private String email;
 
+    @NotNull
     @Pattern(regexp = "^\\+\\d[\\d ]{6,20}$", message = "Некорректный формат телефона")
     private String phone;
 
     @NotBlank
+    @NotNull
     @Pattern(regexp = "^[a-z0-9-]+$", message = "position должен содержать только строчные латинские буквы, цифры и дефис")
     private String position;
     private String posLabel;
@@ -38,10 +42,10 @@ public class CandidateWriteRequest {
     private String summary;
 
     @Valid
-    private List<Criteria> criteria = new ArrayList<>();
+    private List<CriteriaItem> criteria = new ArrayList<>();
 
     @Valid
-    private List<Experience> experience = new ArrayList<>();
+    private List<ExperienceItem> experience = new ArrayList<>();
 
     private List<String> questions = new ArrayList<>();
 }
