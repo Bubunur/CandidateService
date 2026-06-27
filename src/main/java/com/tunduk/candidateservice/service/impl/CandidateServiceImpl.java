@@ -10,8 +10,8 @@ import com.tunduk.candidateservice.model.enums.CandidateStatus;
 import com.tunduk.candidateservice.model.enums.Verdict;
 import com.tunduk.candidateservice.repository.CandidateRepository;
 import com.tunduk.candidateservice.service.CandidateService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -81,9 +81,7 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public CandidateResponse getById(String id) {
-        Candidate candidate = candidateRepository.findById(id).orElseThrow(
-                () -> new CandidateNotFoundException("Candidate with id " + id + " not found")
-        );
+        Candidate candidate = findByIdOrThrow(id);
 
         return CandidateResponse.builder()
                 .id(candidate.getId())
@@ -109,13 +107,30 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
+    @Transactional
     public CandidateResponse create(CandidateWriteRequest request) {
         if (candidateRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new EmailDuplicateException("Candidate with email " + request.getEmail() + " already exists");
         }
 
         String id = generateSlug(request.getName());
-        Candidate candidate = getCandidate(request, id);
+        Candidate candidate = new Candidate();
+        candidate.setId(id);
+        candidate.setName(request.getName());
+        candidate.setEmail(request.getEmail());
+        candidate.setPhone(request.getPhone());
+        candidate.setPosition(request.getPosition());
+        candidate.setPosLabel(request.getPosLabel());
+        candidate.setCity(request.getCity());
+        candidate.setTelegram(request.getTelegram());
+        candidate.setTotalExp(request.getTotalExp());
+        candidate.setStack(request.getStack());
+        candidate.setEducation(request.getEducation());
+        candidate.setVerdict(request.getVerdict());
+        candidate.setSummary(request.getSummary());
+        candidate.setCriteria(request.getCriteria());
+        candidate.setExperience(request.getExperience());
+        candidate.setQuestions(request.getQuestions());
         candidate.setStatus(CandidateStatus.NEW);
 
         Candidate saved = candidateRepository.save(candidate);
@@ -143,9 +158,14 @@ public class CandidateServiceImpl implements CandidateService {
                 .build();
     }
 
-    private static @NonNull Candidate getCandidate(CandidateWriteRequest request, String id) {
-        Candidate candidate = new Candidate();
-        candidate.setId(id);
+    @Override
+    @Transactional
+    public CandidateResponse update(String id, CandidateWriteRequest request) {
+        Candidate candidate = findByIdOrThrow(id);
+        if (!candidate.getEmail().equals(request.getEmail()) &&
+                candidateRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new EmailDuplicateException("Candidate with email " + request.getEmail() + " already exists");
+        }
         candidate.setName(request.getName());
         candidate.setEmail(request.getEmail());
         candidate.setPhone(request.getPhone());
@@ -161,9 +181,47 @@ public class CandidateServiceImpl implements CandidateService {
         candidate.setCriteria(request.getCriteria());
         candidate.setExperience(request.getExperience());
         candidate.setQuestions(request.getQuestions());
-        return candidate;
+
+        Candidate saved = candidateRepository.save(candidate);
+
+        return CandidateResponse.builder()
+                .id(saved.getId())
+                .name(saved.getName())
+                .email(saved.getEmail())
+                .phone(saved.getPhone())
+                .position(saved.getPosition())
+                .posLabel(saved.getPosLabel())
+                .city(saved.getCity())
+                .telegram(saved.getTelegram())
+                .totalExp(saved.getTotalExp())
+                .stack(saved.getStack())
+                .education(saved.getEducation())
+                .verdict(saved.getVerdict())
+                .summary(saved.getSummary())
+                .status(saved.getStatus())
+                .criteria(saved.getCriteria())
+                .experience(saved.getExperience())
+                .questions(saved.getQuestions())
+                .createdAt(saved.getCreatedAt())
+                .updatedAt(saved.getUpdatedAt())
+                .build();
     }
 
+    @Override
+    @Transactional
+    public void delete(String id) {
+        Candidate candidate = candidateRepository.findById(id).orElseThrow(
+                () -> new CandidateNotFoundException("Candidate with id " + id + " not found")
+        );
+        candidateRepository.delete(candidate);
+    }
+
+    @Override
+    public Candidate findByIdOrThrow(String id) {
+        return candidateRepository.findById(id).orElseThrow(
+                () -> new CandidateNotFoundException("Candidate with id " + id + " not found")
+        );
+    }
 
     private String generateSlug(String email) {
         String base = email.split("@")[0]
