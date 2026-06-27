@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: candidate-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cv_scan
+    username: user
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.migration-master.yaml
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: candidate-service-group
+      auto-offset-reset: earliest
+
+      enable-auto-commit: false
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
