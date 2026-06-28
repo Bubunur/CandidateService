@@ -20,9 +20,9 @@ public abstract class AbstractIntegrationTest {
     @Container
     static final PostgreSQLContainer<?> POSTGRES =
             new PostgreSQLContainer<>(DockerImageName.parse("postgres:16"))
-                    .withDatabaseName("cvscan_test")
-                    .withUsername("cvscan")
-                    .withPassword("cvscan");
+                    .withDatabaseName("cv_scan")
+                    .withUsername("user")
+                    .withPassword("password");
 
     @Container
     static final KafkaContainer KAFKA =
