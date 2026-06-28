@@ -1,7 +1,7 @@
 package com.tunduk.candidateservice.model;
 
-import com.tunduk.candidateservice.dto.Criteria;
-import com.tunduk.candidateservice.dto.Experience;
+import com.tunduk.candidateservice.dto.CriteriaItem;
+import com.tunduk.candidateservice.dto.ExperienceItem;
 import com.tunduk.candidateservice.model.enums.CandidateStatus;
 import com.tunduk.candidateservice.model.enums.Verdict;
 import jakarta.persistence.*;
@@ -62,11 +62,11 @@ public class Candidate {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private List<Criteria> criteria = new ArrayList<>();
+    private List<CriteriaItem> criteria = new ArrayList<>();
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private List<Experience> experience = new ArrayList<>();
+    private List<ExperienceItem> experience = new ArrayList<>();
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")

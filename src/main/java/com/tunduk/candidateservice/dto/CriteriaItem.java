@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Criteria {
+public class CriteriaItem {
     String key;
     CriteriaResult result;
     String comment;
