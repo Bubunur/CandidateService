@@ -17,7 +17,7 @@ public class CvParsedConsumer {
     private final CandidateRepository candidateRepository;
 
     @KafkaListener(
-            topics = "${kafka.topics.cv-parsed}",
+            topics = "${app.kafka.topics.cv-parsed}",
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "kafkaListenerContainerFactory"
     )

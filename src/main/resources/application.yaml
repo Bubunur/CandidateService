@@ -2,13 +2,11 @@ spring:
   application:
     name: candidate-service
 
-
   datasource:
-    url: jdbc:postgresql://localhost:5432/cvscan
-    username: cvscan
-    password: cvscan
+    url: jdbc:postgresql://localhost:5432/cv_scan
+    username: user
+    password: password
     driver-class-name: org.postgresql.Driver
-
 
   jpa:
     show-sql: false
@@ -21,11 +19,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-
   liquibase:
     enabled: true
-    change-log: classpath:/db/db.changelog-master.yaml
-
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
 
   kafka:
     bootstrap-servers: localhost:9092
@@ -44,23 +40,22 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
-
 springdoc:
   api-docs:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
 
-
-kafka:
-  topics:
-    cv-parsed: cv.parsed
-    status-changed: candidate.status.changed
-
+app:
+  kafka:
+    topics:
+      cv-parsed: cv.parsed
+      status-changed: candidate.status.changed
 
 logging:
   level:
     root: INFO
+    liquibase: INFO
     com.tunduk.candidateservice: DEBUG
     org.springframework.kafka: INFO
   pattern:

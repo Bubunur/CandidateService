@@ -18,7 +18,7 @@ public class StatusChangedProducer {
 
     private final KafkaTemplate<String, StatusChangedEvent> kafkaTemplate;
 
-    @Value("${kafka.topics.status-changed}")
+    @Value("${app.kafka.topics.status-changed}")
     private String topic;
 
     public void sendStatusChanged(String candidateId, CandidateStatus fromStatus, CandidateStatus toStatus) {
