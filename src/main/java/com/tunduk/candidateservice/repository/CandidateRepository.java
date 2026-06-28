@@ -15,4 +15,6 @@ public interface CandidateRepository
     Optional<Candidate> findByEmail(String email);
 
     boolean existsByIdAndCreatedAt(String id, Instant createdAt);
+
+    long countByEmail(String email);
 }
