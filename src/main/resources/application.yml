@@ -1,20 +1,22 @@
 
-
 spring:
   application:
     name: candidate-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/cv_scan
-    username: user
-    password: password
+    url: jdbc:postgresql://localhost:5432/cvscan
+    username: cvscan
+    password: cvscan
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: validate
     show-sql: false
+    open-in-view: false
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
   liquibase:
@@ -44,8 +46,17 @@ spring-doc:
   swagger-ui:
     path: /swagger-ui.html
 
-kafka:
-  topics:
-    cv-parsed: cv-parsed
-    status-changed: status-changed
-    cv-parsed-dlt: cv-parsed.DLT
+app:
+  kafka:
+    topics:
+      cv-parsed: cv.parsed
+      status-changed: candidate.status.changed
+
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{correlationId:-no-corr}] [%-5level] %logger{36} - %msg%n"
+  level:
+    root: INFO
+    kg.tunduk.cvscan: DEBUG
+    org.springframework.kafka: INFO

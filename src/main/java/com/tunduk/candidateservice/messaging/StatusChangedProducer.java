@@ -22,7 +22,12 @@ public class StatusChangedProducer {
     private String topic;
 
     public void sendStatusChanged(String candidateId, CandidateStatus fromStatus, CandidateStatus toStatus) {
-        StatusChangedEvent event = StatusChangedEvent.builder().eventId(UUID.randomUUID().toString()).candidateId(candidateId).fromStatus(fromStatus).toStatus(toStatus).changedAt(Instant.now()).build();
+        StatusChangedEvent event = StatusChangedEvent.builder()
+                .eventId(UUID.randomUUID().toString())
+                .candidateId(candidateId)
+                .fromStatus(fromStatus)
+                .toStatus(toStatus)
+                .changedAt(Instant.now()).build();
 
         kafkaTemplate.send(topic, candidateId, event).whenComplete((result, ex) -> {
             if (ex != null) {
