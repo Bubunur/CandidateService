@@ -1,3 +1,5 @@
+
+
 spring:
   application:
     name: candidate-service
@@ -24,15 +26,26 @@ spring:
     consumer:
       group-id: candidate-service-group
       auto-offset-reset: earliest
-
       enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.tunduk.candidateservice.dto.event"
+        spring.json.use.type.headers: false
     producer:
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    listener:
+      ack-mode: MANUAL
 
-
-springdoc:
+spring-doc:
   api-docs:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+kafka:
+  topics:
+    cv-parsed: cv-parsed
+    status-changed: status-changed
+    cv-parsed-dlt: cv-parsed.DLT

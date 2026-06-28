@@ -3,8 +3,10 @@ package com.tunduk.candidateservice.service.impl;
 import com.tunduk.candidateservice.dto.CandidateResponse;
 import com.tunduk.candidateservice.dto.StatusChangeRequest;
 import com.tunduk.candidateservice.dto.StatusHistoryEntry;
+import com.tunduk.candidateservice.messaging.StatusChangedProducer;
 import com.tunduk.candidateservice.model.Candidate;
 import com.tunduk.candidateservice.model.StatusHistory;
+import com.tunduk.candidateservice.model.enums.CandidateStatus;
 import com.tunduk.candidateservice.repository.StatusHistoryRepository;
 import com.tunduk.candidateservice.service.CandidateService;
 import com.tunduk.candidateservice.service.StatusHistoryService;
@@ -21,12 +23,15 @@ import java.util.List;
 public class StatusHistoryImpl implements StatusHistoryService {
     private final CandidateService candidateService;
     private final StatusHistoryRepository historyRepository;
+    private final StatusChangedProducer statusChangedProducer;
 
     @Override
     @Transactional
     public CandidateResponse changeStatus(String id, StatusChangeRequest request) {
         Candidate candidate = candidateService.findByIdOrThrow(id);
-        //todo добавить позже стейт машину, проверку на корректность смены статуса
+        CandidateStatus prevStatus = candidate.getStatus();
+        prevStatus.validateTransition(request.getStatus());
+        candidate.setStatus(request.getStatus());
 
         StatusHistory history = new StatusHistory();
         history.setCandidateId(id);
@@ -35,7 +40,7 @@ public class StatusHistoryImpl implements StatusHistoryService {
         history.setComment(request.getComment());
         historyRepository.save(history);
 
-        //todo добавить публикацию ивента в кафку
+        statusChangedProducer.sendStatusChanged(id, prevStatus, request.getStatus());
 
         log.info("Candidate {} status changed from {} to {}", id, candidate.getStatus(), request.getStatus());
         return CandidateResponse.builder()
