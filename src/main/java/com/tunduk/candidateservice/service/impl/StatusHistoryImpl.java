@@ -35,7 +35,7 @@ public class StatusHistoryImpl implements StatusHistoryService {
 
         StatusHistory history = new StatusHistory();
         history.setCandidateId(id);
-        history.setFromStatus(candidate.getStatus());
+        history.setFromStatus(prevStatus);
         history.setToStatus(request.getStatus());
         history.setComment(request.getComment());
         historyRepository.save(history);
