@@ -93,24 +93,24 @@ INSERT INTO candidates (
 );
 
 INSERT INTO candidate_status_history (id, candidate_id, from_status, to_status, comment, changed_at) VALUES
-(gen_random_uuid()::varchar, 'mamytov-erlan', 'NEW', 'IN_REVIEW', 'Скрининг пройден', CURRENT_TIMESTAMP - INTERVAL '4 days'),
-(gen_random_uuid()::varchar, 'zhaparov-timur', 'NEW', 'IN_REVIEW', 'Скрининг пройден', CURRENT_TIMESTAMP - INTERVAL '3 days'),
-(gen_random_uuid()::varchar, 'musaev-azamat', 'NEW', 'IN_REVIEW', 'Скрининг пройден', CURRENT_TIMESTAMP - INTERVAL '1 day'),
+(gen_random_uuid(), 'mamytov-erlan', 'NEW', 'IN_REVIEW', 'Скрининг пройден', CURRENT_TIMESTAMP - INTERVAL '4 days'),
+(gen_random_uuid(), 'zhaparov-timur', 'NEW', 'IN_REVIEW', 'Скрининг пройден', CURRENT_TIMESTAMP - INTERVAL '3 days'),
+(gen_random_uuid(), 'musaev-azamat', 'NEW', 'IN_REVIEW', 'Скрининг пройден', CURRENT_TIMESTAMP - INTERVAL '1 day'),
 
-(gen_random_uuid()::varchar, 'omorov-ruslan', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '5 days'),
-(gen_random_uuid()::varchar, 'omorov-ruslan', 'IN_REVIEW', 'INVITED', 'Назначено тех. интервью', CURRENT_TIMESTAMP - INTERVAL '2 days'),
-(gen_random_uuid()::varchar, 'kubatov-daniyar', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '4 days'),
-(gen_random_uuid()::varchar, 'kubatov-daniyar', 'IN_REVIEW', 'INVITED', 'Назначено интервью', CURRENT_TIMESTAMP - INTERVAL '1 day'),
+(gen_random_uuid(), 'omorov-ruslan', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '5 days'),
+(gen_random_uuid(), 'omorov-ruslan', 'IN_REVIEW', 'INVITED', 'Назначено тех. интервью', CURRENT_TIMESTAMP - INTERVAL '2 days'),
+(gen_random_uuid(), 'kubatov-daniyar', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '4 days'),
+(gen_random_uuid(), 'kubatov-daniyar', 'IN_REVIEW', 'INVITED', 'Назначено интервью', CURRENT_TIMESTAMP - INTERVAL '1 day'),
 
-(gen_random_uuid()::varchar, 'tilekov-aibek', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '8 days'),
-(gen_random_uuid()::varchar, 'tilekov-aibek', 'IN_REVIEW', 'INVITED', 'Интервью', CURRENT_TIMESTAMP - INTERVAL '5 days'),
-(gen_random_uuid()::varchar, 'tilekov-aibek', 'INVITED', 'APPROVED', 'Оффер принят', CURRENT_TIMESTAMP),
+(gen_random_uuid(), 'tilekov-aibek', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '8 days'),
+(gen_random_uuid(), 'tilekov-aibek', 'IN_REVIEW', 'INVITED', 'Интервью', CURRENT_TIMESTAMP - INTERVAL '5 days'),
+(gen_random_uuid(), 'tilekov-aibek', 'INVITED', 'APPROVED', 'Оффер принят', CURRENT_TIMESTAMP),
 
-(gen_random_uuid()::varchar, 'kadyrov-nurbol', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '6 days'),
-(gen_random_uuid()::varchar, 'kadyrov-nurbol', 'IN_REVIEW', 'REJECTED', 'Не подходит по ЗП', CURRENT_TIMESTAMP - INTERVAL '3 days'),
-(gen_random_uuid()::varchar, 'kydyraliev-nurzat', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '2 days'),
-(gen_random_uuid()::varchar, 'kydyraliev-nurzat', 'IN_REVIEW', 'REJECTED', 'Слабый технический бэкграунд', CURRENT_TIMESTAMP - INTERVAL '1 day'),
+(gen_random_uuid(), 'kadyrov-nurbol', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '6 days'),
+(gen_random_uuid(), 'kadyrov-nurbol', 'IN_REVIEW', 'REJECTED', 'Не подходит по ЗП', CURRENT_TIMESTAMP - INTERVAL '3 days'),
+(gen_random_uuid(), 'kydyraliev-nurzat', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '2 days'),
+(gen_random_uuid(), 'kydyraliev-nurzat', 'IN_REVIEW', 'REJECTED', 'Слабый технический бэкграунд', CURRENT_TIMESTAMP - INTERVAL '1 day'),
 
-(gen_random_uuid()::varchar, 'borbiev-almaz', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '7 days'),
-(gen_random_uuid()::varchar, 'borbiev-almaz', 'IN_REVIEW', 'INVITED', 'Интервью', CURRENT_TIMESTAMP - INTERVAL '5 days'),
-(gen_random_uuid()::varchar, 'borbiev-almaz', 'INVITED', 'REJECTED', 'Не прошел тех. собеседование', CURRENT_TIMESTAMP - INTERVAL '4 days');
+(gen_random_uuid(), 'borbiev-almaz', 'NEW', 'IN_REVIEW', 'Скрининг', CURRENT_TIMESTAMP - INTERVAL '7 days'),
+(gen_random_uuid(), 'borbiev-almaz', 'IN_REVIEW', 'INVITED', 'Интервью', CURRENT_TIMESTAMP - INTERVAL '5 days'),
+(gen_random_uuid(), 'borbiev-almaz', 'INVITED', 'REJECTED', 'Не прошел тех. собеседование', CURRENT_TIMESTAMP - INTERVAL '4 days');

@@ -26,6 +26,7 @@ public class StatusHistory {
     UUID id;
     @Column(name = "candidate_id", nullable = false)
     String candidateId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "from_status")
     private CandidateStatus fromStatus;

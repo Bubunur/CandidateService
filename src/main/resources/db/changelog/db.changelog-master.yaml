@@ -1,3 +1,10 @@
 databaseChangeLog:
-  - includeAll:
-      path: db/sql/"
+  - include:
+      file: db/changelog/001-create-candidates.sql
+      relativeToChangelogFile: false
+  - include:
+      file: db/changelog/002-create-status-history.sql
+      relativeToChangelogFile: false
+  - include:
+      file: db/changelog/003-seed-data.sql
+      relativeToChangelogFile: false
