@@ -3,6 +3,7 @@ package com.tunduk.candidateservice.service;
 import com.tunduk.candidateservice.dto.CandidatePage;
 import com.tunduk.candidateservice.dto.CandidateResponse;
 import com.tunduk.candidateservice.dto.CandidateWriteRequest;
+import com.tunduk.candidateservice.dto.event.CvParsedEvent;
 import com.tunduk.candidateservice.model.Candidate;
 import com.tunduk.candidateservice.model.enums.CandidateStatus;
 import com.tunduk.candidateservice.model.enums.Verdict;
@@ -15,4 +16,5 @@ public interface CandidateService {
     CandidateResponse update(String id, @Valid CandidateWriteRequest request);
     void delete(String id);
     Candidate findByIdOrThrow(String id);
+    void createFromKafka(CvParsedEvent event);
 }

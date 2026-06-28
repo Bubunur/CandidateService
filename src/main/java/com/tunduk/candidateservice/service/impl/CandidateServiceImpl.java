@@ -3,6 +3,7 @@ package com.tunduk.candidateservice.service.impl;
 import com.tunduk.candidateservice.dto.CandidatePage;
 import com.tunduk.candidateservice.dto.CandidateResponse;
 import com.tunduk.candidateservice.dto.CandidateWriteRequest;
+import com.tunduk.candidateservice.dto.event.CvParsedEvent;
 import com.tunduk.candidateservice.exception.CandidateNotFoundException;
 import com.tunduk.candidateservice.exception.EmailDuplicateException;
 import com.tunduk.candidateservice.model.Candidate;
@@ -12,6 +13,7 @@ import com.tunduk.candidateservice.repository.CandidateRepository;
 import com.tunduk.candidateservice.service.CandidateService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CandidateServiceImpl implements CandidateService {
 
     private final CandidateRepository candidateRepository;
@@ -226,6 +229,38 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateRepository.findById(id).orElseThrow(
                 () -> new CandidateNotFoundException("Candidate with id " + id + " not found")
         );
+    }
+
+    @Override
+    @Transactional
+    public void createFromKafka(CvParsedEvent event) {
+        if (candidateRepository.existsByIdAndCreatedAt(event.getCandidateId(), event.getParsedAt())) {
+            log.info("Duplicate CvParsedEvent received for candidateId={}, parsedAt={}. Skipping.", event.getCandidateId(), event.getParsedAt());
+            return;
+        }
+
+        Candidate candidate = new Candidate();
+        candidate.setId(event.getCandidateId());
+        candidate.setName(event.getName());
+        candidate.setEmail(event.getEmail());
+        candidate.setPhone(event.getPhone());
+        candidate.setPosition(event.getPosition());
+        candidate.setPosLabel(event.getPosLabel());
+        candidate.setCity(event.getCity());
+        candidate.setTelegram(event.getTelegram());
+        candidate.setTotalExp(event.getTotalExp());
+        candidate.setStack(event.getStack());
+        candidate.setEducation(event.getEducation());
+        candidate.setVerdict(event.getVerdict());
+        candidate.setSummary(event.getSummary());
+        candidate.setCriteria(event.getCriteria() != null ? event.getCriteria() : new ArrayList<>());
+        candidate.setExperience(event.getExperience() != null ? event.getExperience() : new ArrayList<>());
+        candidate.setQuestions(event.getQuestions() != null ? event.getQuestions() : new ArrayList<>());
+        candidate.setStatus(CandidateStatus.NEW);
+        candidate.setCreatedAt(event.getParsedAt());
+
+        candidateRepository.save(candidate);
+        log.info("Candidate saved from kafka");
     }
 
     private String generateSlug(String email) {
