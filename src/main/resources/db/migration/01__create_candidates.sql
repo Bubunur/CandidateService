@@ -1,4 +1,7 @@
-CREATE TABLE candidates
+--liquibase formatted sql
+--changeset bubunur:1
+
+CREATE TABLE IF NOT EXISTS candidates
 (
     id VARCHAR(36) PRIMARY KEY ,
     name         VARCHAR(100)             NOT NULL,

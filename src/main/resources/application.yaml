@@ -1,7 +1,7 @@
-
 spring:
   application:
     name: candidate-service
+
 
   datasource:
     url: jdbc:postgresql://localhost:5432/cvscan
@@ -9,22 +9,28 @@ spring:
     password: cvscan
     driver-class-name: org.postgresql.Driver
 
+
   jpa:
-    hibernate:
-      ddl-auto: validate
     show-sql: false
     open-in-view: false
+    hibernate:
+      ddl-auto: none
     properties:
       hibernate:
+        default_schema: public
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
+
   liquibase:
     enabled: true
-    change-log: classpath:db/changelog/db.migration-master.yaml
+    change-log: classpath:/db/db.changelog-master.yaml
+
 
   kafka:
     bootstrap-servers: localhost:9092
+    listener:
+      ack-mode: MANUAL
     consumer:
       group-id: candidate-service-group
       auto-offset-reset: earliest
@@ -37,26 +43,25 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    listener:
-      ack-mode: MANUAL
 
-spring-doc:
+
+springdoc:
   api-docs:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
 
-app:
-  kafka:
-    topics:
-      cv-parsed: cv.parsed
-      status-changed: candidate.status.changed
+
+kafka:
+  topics:
+    cv-parsed: cv.parsed
+    status-changed: candidate.status.changed
 
 
 logging:
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{correlationId:-no-corr}] [%-5level] %logger{36} - %msg%n"
   level:
     root: INFO
-    kg.tunduk.cvscan: DEBUG
+    com.tunduk.candidateservice: DEBUG
     org.springframework.kafka: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{correlationId:-no-corr}] [%-5level] %logger{36} - %msg%n"

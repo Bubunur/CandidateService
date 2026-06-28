@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset bubunur:3
+
 INSERT INTO candidates (
     id, name, email, phone, position, pos_label, city, telegram, total_exp,
     stack, education, verdict, summary, criteria, experience, questions, status, created_at, updated_at

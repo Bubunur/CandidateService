@@ -1,4 +1,7 @@
-CREATE TABLE candidate_status_history
+--liquibase formatted sql
+--changeset bubunur:2
+
+CREATE TABLE IF NOT EXISTS candidate_status_history
 (
     id           UUID PRIMARY KEY,
     candidate_id VARCHAR(36)              NOT NULL,
@@ -9,7 +12,7 @@ CREATE TABLE candidate_status_history
 
     CONSTRAINT fk_status_history_candidate
         FOREIGN KEY (candidate_id)
-            REFERENCES candidates (id)
+            REFERENCES candidates(id)
             ON DELETE CASCADE
 );
 
