@@ -43,7 +43,6 @@ public class CvParsedConsumer {
         c.setId(e.getCandidateId());
         c.setStatus(CandidateStatus.NEW);
         c.setCreatedAt(e.getParsedAt());
-
         c.setName(e.getName());
         c.setEmail(e.getEmail());
         c.setPhone(e.getPhone());

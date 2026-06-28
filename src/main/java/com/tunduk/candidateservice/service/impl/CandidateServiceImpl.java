@@ -43,9 +43,14 @@ public class CandidateServiceImpl implements CandidateService {
             specs.add((root, query, cb) -> cb.like(root.get("name"), "%" + search + "%"));
 
         Specification<Candidate> combined = specs.stream()
-                .reduce(Specification.where((Specification<Candidate>) null), Specification::and);
+                .reduce(Specification.where(null), Specification::and);
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        String[] parts = sort.split(",", 2);
+        Sort.Direction direction = parts.length > 1 && parts[1].trim().equalsIgnoreCase("desc")
+                ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort sortObj = Sort.by(direction, parts[0].trim());
+
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         Page<Candidate> result = candidateRepository.findAll(combined, pageable);
 
         return CandidatePage.builder()
@@ -113,7 +118,7 @@ public class CandidateServiceImpl implements CandidateService {
             throw new EmailDuplicateException("Candidate with email " + request.getEmail() + " already exists");
         }
 
-        String id = generateSlug(request.getName());
+        String id = generateSlug(request.getEmail());
         Candidate candidate = new Candidate();
         candidate.setId(id);
         candidate.setName(request.getName());
