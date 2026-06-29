@@ -158,7 +158,7 @@ public class CandidateApiIntegrationTest extends AbstractIntegrationTest {
                 .patch("/{id}/status", id)
                 .then()
                 .statusCode(200)
-                .body("status", equalTo("INVITED"));
+                .body("status", equalTo("IN_REVIEW"));
     }
 
     @Test
