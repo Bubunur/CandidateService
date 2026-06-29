@@ -2,7 +2,6 @@ package com.tunduk.candidateservice.messaging;
 
 import com.tunduk.candidateservice.dto.event.CvParsedEvent;
 import com.tunduk.candidateservice.service.CandidateService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -16,7 +15,6 @@ public class CvParsedConsumer {
 
     private final CandidateService candidateService;
 
-    @Transactional
     @KafkaListener(
             topics = "${app.kafka.topics.cv-parsed}",
             groupId = "${spring.kafka.consumer.group-id}",
